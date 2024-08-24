@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react"
-import Button from "./components/button"
-import Typography from "./components/typography"
+import { useCallback, useState } from "react";
+import { useListEpisodesQuery } from "./api/episodes";
+import Button from "./components/button";
+import Typography from "./components/typography";
 
 const App = () => {
   const [mode, setmode] = useState<"" | "dark">("");
@@ -8,6 +9,11 @@ const App = () => {
   const handleModeChange = useCallback(() => {
    setmode(prev => prev === "dark" ? "" : "dark")
   }, [mode])
+
+  const { data } = useListEpisodesQuery("");
+
+  console.log(data);
+  
   return (
     <div className={mode}>
       <div className="bg-background-50 h-svh px-20 py-4">
