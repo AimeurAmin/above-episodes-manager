@@ -1,34 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useCallback, useState } from "react"
+import Button from "./components/button"
+import Typography from "./components/typography"
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [mode, setmode] = useState<"" | "dark">("");
 
+  const handleModeChange = useCallback(() => {
+   setmode(prev => prev === "dark" ? "" : "dark")
+  }, [mode])
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={mode}>
+      <div className="bg-background-50 h-svh px-20 py-4">
+
+        <div className="flex-row space-x-3">
+          <Button variant="primary" onClick={handleModeChange}>{mode === "dark" ? "light" : "dark"}</Button>
+          <Button variant="secondary" onClick={handleModeChange}>Secondary button</Button>
+        </div>
+        <Typography className="text-xl font-bold">Primary</Typography>
+        <Typography variant="secondary">Secondary</Typography>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
