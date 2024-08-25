@@ -1,8 +1,8 @@
 import { ApiEndpointBuilder } from "../api.types";
-import { EpisodesResponse } from "./types";
+import { EpisodeType, SingleEpisodeResponse } from "./types";
 
 export const getEpisodeById = (builder: ApiEndpointBuilder) => {
-  return builder.query<EpisodesResponse, string>({
+  return builder.query<EpisodeType, string>({
     query: (episodeId) => ({
       url: "",
       method: "POST",
@@ -24,6 +24,7 @@ export const getEpisodeById = (builder: ApiEndpointBuilder) => {
         variables: { episodeId },
       },
     }),
+    transformResponse: (result: SingleEpisodeResponse) => result.data.getEpisodeById
     // providesTags: (result, _error, args) => {      
     //   return 
     // },

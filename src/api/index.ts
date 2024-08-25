@@ -1,1 +1,1 @@
-export { default } from './api';
+export { graphqlApi, omdbApi } from './api';

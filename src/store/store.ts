@@ -1,8 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import api from "../api";
+import { graphqlApi, omdbApi } from "../api";
 
 const rootReducer = combineReducers({
-  [api.reducerPath]: api.reducer,
+  [graphqlApi.reducerPath]: graphqlApi.reducer,
+  [omdbApi.reducerPath]: omdbApi.reducer,
 });
 
 const store = configureStore({
@@ -13,7 +14,8 @@ const store = configureStore({
         ignoredActions: [],
       },
     }).concat([
-      api.middleware
+      graphqlApi.middleware,
+      omdbApi.middleware
     ]),
 });
 

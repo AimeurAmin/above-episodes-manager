@@ -4,5 +4,11 @@ import { BaseQueryFn, EndpointBuilder, FetchArgs, FetchBaseQueryError, FetchBase
 export type ApiEndpointBuilder = EndpointBuilder<
   BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, object, FetchBaseQueryMeta>,
   string,
-  "api"
+  "graphqlApi"
+>;
+
+export type OmdbApiEndpointBuilder = EndpointBuilder<
+  BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, object, FetchBaseQueryMeta>,
+  string,
+  "omdbApi"
 >;

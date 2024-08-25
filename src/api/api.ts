@@ -5,8 +5,8 @@ const API_TAGS = [
 ]
 
 // Define a service using a base URL and expected endpoints
-const api = createApi({
-  reducerPath: 'api',
+export const graphqlApi = createApi({
+  reducerPath: 'graphqlApi',
   baseQuery: retry(
     fetchBaseQuery({
       baseUrl: import.meta.env.VITE_APP_GRAPHQL_API,
@@ -29,4 +29,10 @@ const api = createApi({
   endpoints: () => ({})
 });
 
-export default api
+export const omdbApi = createApi({
+  reducerPath: 'omdbApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${import.meta.env.VITE_APP_OMDB_API}`
+  }),
+  endpoints: () => ({})
+});
