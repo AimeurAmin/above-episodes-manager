@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { createPortal } from 'react-dom';
-import { useOnCreateEpisodeQuery } from '../api/episodes';
 import { NotificationType } from '../api/episodes/types';
 import NotificationItem from './notification-item';
 import Typography from './typography';
+import { useSubscribeToEpisodesEventsQuery } from '../api/episodes';
 
 type Props = {
   isOpen: boolean;
@@ -11,7 +11,7 @@ type Props = {
 }
 
 const NotificationsList: FC<Props> = ({ isOpen, toggle }) => {
-  const { data: createdEpisodes } = useOnCreateEpisodeQuery();
+  const { data: createdEpisodes } = useSubscribeToEpisodesEventsQuery();
 
   const modalRoot = (document.getElementById('modal-root'));
   if(!modalRoot) return <></>;

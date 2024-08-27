@@ -4,7 +4,7 @@ import onCreateSubscription from './subscriptions/on-create';
 import onUpdateSubscription from './subscriptions/on-update';
 import { EpisodeType, NotificationType } from './types';
 
-export const onCreateEpisode = (builder: ApiEndpointBuilder) => {
+export const subscribeToEpisodesEvents = (builder: ApiEndpointBuilder) => {
   return builder.query<any, void>({
     queryFn: () => ({ data: null}),
     async onCacheEntryAdded(

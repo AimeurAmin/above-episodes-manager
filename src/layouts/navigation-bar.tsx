@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NotificationsList from '../components/notifications-list';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useOnCreateEpisodeQuery } from '../api/episodes';
+import { useSubscribeToEpisodesEventsQuery } from '../api/episodes';
 
 const Navbar = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const toggleNotifications = () => setIsNotificationsOpen(prev => !prev);
   const location = useLocation();
-  const { data: notifications } = useOnCreateEpisodeQuery();
+  const { data: notifications } = useSubscribeToEpisodesEventsQuery();
 
   return (
     <div className='flex w-full justify-center relative'>
