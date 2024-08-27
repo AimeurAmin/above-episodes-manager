@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { NotificationType } from '../api/episodes/types'
 import Typography from './typography'
+import { useDispatch } from 'react-redux'
+import { graphqlApi } from '../api'
 
-const NotificationItem = (props: NotificationType & { toggle: () => void }) => {
-  const { id, series, title, episodeNumber, seasonNumber, eventType, toggle } = props
+const NotificationItem = (props: NotificationType & { toggle: () => void; index: number }) => {
+  const { id, series, title, episodeNumber, seasonNumber, eventType, index, toggle } = props
 
   const event = {
     create: {
@@ -19,9 +21,21 @@ const NotificationItem = (props: NotificationType & { toggle: () => void }) => {
       message: "Episode deleted"
     }
   }[eventType];
+
+  const dispatch = useDispatch();
+  const handleNotificationClicked = () => {
+    toggle();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    dispatch(graphqlApi.util.updateQueryData('onCreateEpisode', undefined,(draft: NotificationType[]) => {
+      console.log({draft});
+      
+      draft.splice(index, 1);
+    }))
+  }
   
   return (
-    <Link to={`/${id}`} onClick={toggle}>
+    <Link to={`/${id}`} onClick={handleNotificationClicked} key={id}>
       <div className='rounded-lg bg-primary-50 px-3 py-1 cursor-pointer mb-2'>
         <div className="flex justify-between items-start">
           <Typography className='text-lg w-64 font-medium overflow-hidden overflow-ellipsis text-nowrap'>{series}</Typography>

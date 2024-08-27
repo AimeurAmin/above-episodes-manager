@@ -20,7 +20,7 @@ const Navbar = () => {
       )}
       <FontAwesomeIcon icon={faBell} size="xl" className='absolute top-1 right-0 cursor-pointer z-10' onClick={toggleNotifications}/>
       {
-        notifications && notifications.length && (
+        notifications && Boolean(notifications.length) && (
           <div 
             className="rounded-full w-4 h-4 text-white bg-red-500 text-[10px] flex items-center justify-center absolute top-0 right-3 z-20"
           >{notifications.length}</div>
