@@ -1,7 +1,34 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FC } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { EpisodeType } from '../api/episodes/types';
+import Button from "./button";
+import Typography from "./typography";
+
+const schema = z.object({
+  title: z.string().min(3),
+  description: z.string().min(3),
+  imdbId: z.string().min(9),
+  episodeNumber: z.number().min(1),
+  seasonNumber: z.number().min(1),
+  releaseDate: z.string(),
+});
+
+type SchemaType = z.infer<typeof schema>
+
 
 const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: () => void }> = ({ episode, isOpen, toggleDrawer }) => {
+  const { register, formState: { errors }, handleSubmit } = useForm<SchemaType>({
+    resolver: zodResolver(schema),
+    defaultValues: episode || {}
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    
+  }
+
   return (
     <div className="relative h-screen">
       {/* Overlay */}
@@ -13,59 +40,80 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
       ></div>
 
       {/* Drawer */}
-      <div
+      <form
         className={`fixed top-0 right-0 w-4/12 h-full bg-white shadow-lg transform transition-transform ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="p-4">
           <h2 className="text-lg font-bold">{episode ? "Create" : "Update"} a new episode</h2>
 
           <label className="text-sm" htmlFor="title">title</label>
-          <input id='title' name='title'
+          <input id='title' 
             placeholder='Title'
-            className='w-full border p-2 mb-3'
+            className='w-full border p-2 mb-1'
+            {...register('title')}
           />
+          {errors.title?.message && <Typography className="text-red-500 text-sm mt-0">{errors.title?.message}</Typography>}
 
-          <div className="flex justify-between gap-2 mb-3">
+          <div className="flex justify-between gap-2 mb-1">
             <div className="flex-col">
               <label className="text-sm" htmlFor="episodeNumber">Episode number</label>
-              <input id='episodeNumber' name='episodeNumber'
+              <input id='episodeNumber' 
                 placeholder='Episode number'
                 className='w-full border p-2 mr-1'
                 type='number'
+                min={0}
+                {...register('episodeNumber',{
+                  setValueAs: (value) => Number(value),
+                })}
               />
+              {errors.episodeNumber?.message && <Typography className="text-red-500 text-sm mt-0">{errors.episodeNumber?.message}</Typography>}
             </div>
 
             <div className="flex-col">
               <label className="text-sm" htmlFor="seasonNumber">Season number</label>
-              <input id='seasonNumber' name='seasonNumber'
+              <input id='seasonNumber' 
                 placeholder='Season number'
                 className='w-full border p-2 ml-1'
                 type='number'
+                min={0}
+                {...register('seasonNumber', {
+                  setValueAs: (value) => Number(value),
+                })}
               />
+              {errors.seasonNumber?.message && <Typography className="text-red-500 text-sm mt-0">{errors.seasonNumber?.message}</Typography>}
             </div>
           </div>
 
 
           <label className="text-sm" htmlFor="imdbId">Imdb id</label>
-          <input id='imdbId' name='imdbId'
+          <input id='imdbId'
             placeholder='IMDB Id'
-            className='w-full border p-2 mb-3'
+            className='w-full border p-2 mb-1'
+            {...register('imdbId')}
           />
+          {errors.imdbId?.message && <Typography className="text-red-500 text-sm mt-0">{errors.imdbId?.message}</Typography>}
 
           <label className="text-sm" htmlFor="description">Description</label>
-          <textarea id='description' name='description'
+          <textarea id='description'
             placeholder='Description'
-            className='w-full border p-2 mb-3'
+            className='w-full border p-2 mb-1'
+            {...register('description')}
             rows={5}
           />
+          {errors.description?.message && <Typography className="text-red-500 text-sm mt-0">{errors.description?.message}</Typography>}
 
           <label className="text-sm" htmlFor='releaseDate'>Release Date</label>
-          <input id='releaseDate' name='releaseDate' type="date" placeholder='Release date'  className='w-full border mb-3'/>
-        
+          <input id='releaseDate' type="date" placeholder='Release date'  className='w-full border mb-1'
+          {...register('releaseDate')}/>
+          {errors.releaseDate?.message && <Typography className="text-red-500 text-sm mt-0">{errors.releaseDate?.message}</Typography>}
+
         </div>
-      </div>
+
+        <Button variant="secondary">Save</Button>
+      </form>
     </div>
   );
 };
