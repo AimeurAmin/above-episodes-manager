@@ -4,10 +4,17 @@ import { FC } from 'react'
 import { EpisodeType } from '../api/episodes/types'
 import moment from 'moment'
 
+type CardPropsType = EpisodeType & { updateEpisode: (episode: EpisodeType) => void }
 
-const Card: FC<EpisodeType> = (props) => {
-  const { series, title, description, releaseDate, episodeNumber, seasonNumber } = props;
-  
+const Card: FC<CardPropsType> = (props) => {
+  const { updateEpisode, ...episode } = props;
+  const { series, title, description, releaseDate, episodeNumber, seasonNumber } = episode;
+
+  const updateEpisodeHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    updateEpisode(episode);
+  }
   return (
     <div className="bg-purple-50 p-4 rounded-xl shadow-lg">
       <div>
@@ -26,7 +33,7 @@ const Card: FC<EpisodeType> = (props) => {
         <button className="text-gray-600 hover:text-purple-600">
           <FontAwesomeIcon icon={faEye} />
         </button>
-        <button className="text-gray-600 hover:text-purple-600">
+        <button className="text-gray-600 hover:text-purple-600" onClick={updateEpisodeHandler}>
           <FontAwesomeIcon icon={faEdit} />
         </button>
         <button className="text-gray-600 hover:text-purple-600">

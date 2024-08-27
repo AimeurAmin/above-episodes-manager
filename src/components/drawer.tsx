@@ -18,11 +18,24 @@ const schema = z.object({
 type SchemaType = z.infer<typeof schema>
 
 
+const defaultValues = {
+  title: "",
+  description: "",
+  imdbId: "",
+  episodeNumber: 0,
+  seasonNumber: 0,
+  releaseDate: "",
+}
+
 const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: () => void }> = ({ episode, isOpen, toggleDrawer }) => {
   const { register, formState: { errors }, handleSubmit } = useForm<SchemaType>({
     resolver: zodResolver(schema),
-    defaultValues: episode || {}
+    values: isOpen ? episode :  defaultValues
   });
+
+  
+  console.log({episode});
+  
 
   const onSubmit = (data) => {
     console.log(data);
@@ -34,7 +47,7 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
       {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity ${
-          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          isOpen ? 'block' : 'hidden'
         }`}
         onClick={toggleDrawer}
       ></div>
@@ -46,8 +59,8 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
         }`}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="p-4">
-          <h2 className="text-lg font-bold">{episode ? "Create" : "Update"} a new episode</h2>
+        <div className="p-4 h-full ">
+          <h2 className="text-lg font-bold mb-4">{episode ? "Update " : "Create a new"} episode</h2>
 
           <label className="text-sm" htmlFor="title">title</label>
           <input id='title' 
@@ -109,10 +122,13 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
           <input id='releaseDate' type="date" placeholder='Release date'  className='w-full border mb-1'
           {...register('releaseDate')}/>
           {errors.releaseDate?.message && <Typography className="text-red-500 text-sm mt-0">{errors.releaseDate?.message}</Typography>}
+          
+          <div className="ml-auto w-fit mt-10">
 
+            <Button variant="secondary" >Save episode</Button>
+          </div>
         </div>
 
-        <Button variant="secondary">Save</Button>
       </form>
     </div>
   );

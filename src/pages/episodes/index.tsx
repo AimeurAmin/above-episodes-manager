@@ -7,6 +7,7 @@ import SearchInput from "../../components/search";
 import Typography from "../../components/typography";
 import useDebounce from "../../hooks/use-debounce";
 import RightDrawer from "../../components/drawer";
+import { EpisodeType } from "../../api/episodes/types";
 
 const EpisodesList = () => {
   const { debouncedSearch, updateDebounce } = useDebounce<string>("");
@@ -42,13 +43,20 @@ const EpisodesList = () => {
   }, [data]);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [episodeToUpdate, setEpisodeToUpdate] = useState<EpisodeType | undefined>(undefined);
 
+  const handleOpenCreateDrawer = () => {
+    setEpisodeToUpdate(undefined);
+    setIsDrawerOpen(true);
+  }
+
+  const handleOpenUpdateDrawer = (episode: EpisodeType) => {
+    setEpisodeToUpdate(episode);
+    setIsDrawerOpen(true)
+  }
   if(!data?.data?.listEpisodes) return <>No episodes</>
   
-  const { data: { listEpisodes } } = data;
-  
-  // eslint-disable-next-line react-hooks/rules-of-hooks
- 
+  const { data: { listEpisodes } } = data; 
   
   return ([
     <div className="w-6/12">
@@ -61,14 +69,14 @@ const EpisodesList = () => {
         loading="lazy"
       />}
       <div className="ml-auto w-fit mb-2">
-        <Button variant="secondary" onClick={() => setIsDrawerOpen(true)}>Create a new episode</Button>
+        <Button variant="secondary" onClick={handleOpenCreateDrawer}>Create a new episode</Button>
       </div>
 
       <div className="overflow-y-auto h-[calc(100vh-350px)]">
         {listEpisodes.map((episode) => (
           <div className="mb-3">
             <Link to={`/${episode.id}`}>
-              <Card {...episode}/>
+              <Card {...episode} updateEpisode={handleOpenUpdateDrawer}/>
             </Link>
           </div>
         ))}
@@ -82,7 +90,7 @@ const EpisodesList = () => {
 
       
     </div>,
-    <RightDrawer isOpen={isDrawerOpen} toggleDrawer={() => setIsDrawerOpen(prev => !prev)}/>
+    <RightDrawer isOpen={isDrawerOpen} toggleDrawer={() => setIsDrawerOpen(prev => !prev)} episode={episodeToUpdate}/>
   ])
 }
 
