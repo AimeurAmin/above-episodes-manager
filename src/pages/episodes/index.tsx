@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useLazyGetOmdbEpisodeByIdQuery, useListEpisodesQuery, useOnCreateEpisodeQuery } from "../../api/episodes";
+import { useLazyGetOmdbEpisodeByIdQuery, useListEpisodesQuery } from "../../api/episodes";
 import { EpisodeType } from "../../api/episodes/types";
 import Button from "../../components/button";
 import Card from "../../components/card";
 import RightDrawer from "../../components/drawer";
 import SearchInput from "../../components/search";
-import Typography from "../../components/typography";
 import useDebounce from "../../hooks/use-debounce";
 
 const EpisodesList = () => {
   const { debouncedSearch, updateDebounce } = useDebounce<string>("");
 
-  const { data: createdEpisodes } = useOnCreateEpisodeQuery();
   
   const { data } = useListEpisodesQuery(debouncedSearch);
 
@@ -73,7 +71,7 @@ const EpisodesList = () => {
         <Button variant="secondary" onClick={handleOpenCreateDrawer}>Create a new episode</Button>
       </div>
 
-      <div className="overflow-y-auto h-[calc(100vh-350px)]">
+      <div className="overflow-y-auto h-[calc(100vh-400px)]">
         {listEpisodes.map((episode) => (
           <div className="mb-3">
             <Link to={`/${episode.id}`}>
@@ -82,14 +80,6 @@ const EpisodesList = () => {
           </div>
         ))}
       </div>
-
-      <div className="flex-row space-x-3">
-        <Button variant="secondary">Secondary button</Button>
-      </div>
-      <Typography className="text-xl font-bold">Primary</Typography>
-      <Typography variant="secondary">Secondary</Typography>
-
-      
     </div>,
     <RightDrawer isOpen={isDrawerOpen} toggleDrawer={() => setIsDrawerOpen(prev => !prev)} episode={episodeToUpdate}/>
   ])
