@@ -28,8 +28,6 @@ const NotificationItem = (props: NotificationType & { toggle: () => void; index:
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     dispatch(graphqlApi.util.updateQueryData('onCreateEpisode', undefined,(draft: NotificationType[]) => {
-      console.log({draft});
-      
       draft.splice(index, 1);
     }))
   }

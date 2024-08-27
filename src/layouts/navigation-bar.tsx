@@ -15,14 +15,14 @@ const Navbar = () => {
     <div className='flex w-full justify-center relative'>
       { location.pathname !== '/' && (
         <Link to="/">
-          <FontAwesomeIcon icon={faCircleArrowLeft} size="2xl" className="absolute top-1 left-0" />
+          <FontAwesomeIcon icon={faCircleArrowLeft} size="2xl" className="absolute top-2 left-0" />
         </Link>
       )}
-      <FontAwesomeIcon icon={faBell} size="xl" className='absolute top-1 right-0 cursor-pointer z-10' onClick={toggleNotifications}/>
+      <FontAwesomeIcon icon={faBell} size="xl" className='absolute top-3 right-0 cursor-pointer z-10' onClick={toggleNotifications}/>
       {
         notifications && Boolean(notifications.length) && (
           <div 
-            className="rounded-full w-4 h-4 text-white bg-red-500 text-[10px] flex items-center justify-center absolute top-0 right-3 z-20"
+            className="rounded-full w-4 h-4 text-white bg-red-500 text-[10px] flex items-center justify-center absolute top-2 right-3 z-20"
           >{notifications.length}</div>
         )
       }
