@@ -71,7 +71,7 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
 
       {/* Drawer */}
       <form
-        className={`fixed top-0 right-0 w-4/12 h-full bg-white shadow-lg transform transition-transform ${
+        className={`fixed z-50 top-0 right-0 w-4/12 h-full bg-white shadow-lg transform transition-transform ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         onSubmit={handleSubmit(onSubmit)}

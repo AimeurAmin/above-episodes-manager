@@ -7,7 +7,7 @@ const SearchInput: FC<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInpu
     <div className="flex items-center rounded-xl border-primary-300 border px-4 py-2 w-full">
       <input
         type="text"
-        placeholder="Search for an episode..."
+        placeholder="Search by episode title..."
         className="bg-purple-100 outline-none text-gray-600 placeholder-gray-400 w-full"
         {...props}
       />

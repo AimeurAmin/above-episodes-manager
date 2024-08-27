@@ -34,11 +34,11 @@ const Card: FC<CardPropsType> = (props) => {
     <div className="bg-purple-50 p-4 rounded-xl shadow-lg">
       <div>
         <div className='flex justify-between'>
-          <h3 className="text-lg font-semibold text-gray-800">{series}</h3>
+          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
           <span className="text-xs text-gray-500">{moment(releaseDate).format("YYYY - MM - DD")}</span>
         </div>
         <p className="text-sm text-gray-600">
-          {title} - Season {seasonNumber} - Episode {episodeNumber}
+          {series} - Season {seasonNumber} - Episode {episodeNumber}
         </p>
         <p className="text-sm text-gray-700 mt-2">
           {description}
