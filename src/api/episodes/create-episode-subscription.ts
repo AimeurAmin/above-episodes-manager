@@ -1,6 +1,8 @@
-import onCreateSubscription from './subscriptions/on-create';
-import { ID, REGION, SOCKET_WSS } from './constants';
 import { ApiEndpointBuilder } from '../api.types';
+import { ID, REGION, SOCKET_WSS } from './constants';
+import onCreateSubscription from './subscriptions/on-create';
+import onUpdateSubscription from './subscriptions/on-update';
+import { EpisodeType, NotificationType } from './types';
 
 export const onCreateEpisode = (builder: ApiEndpointBuilder) => {
   return builder.query<any, void>({
@@ -26,17 +28,33 @@ export const onCreateEpisode = (builder: ApiEndpointBuilder) => {
         console.log('Connected to WebSocket server');
         // Subscribes to events
         onCreateSubscription(ws);
+        onUpdateSubscription(ws);
       };
 
       ws.onmessage = (event) => {
         try {
-          const data = JSON.parse(event.data);
+          const data = JSON.parse(event.data) as { 
+            id: "onCreateId" | "onUpdateId" | "onDeleteId",
+            payload: { data: {
+              [key: string]: EpisodeType
+            }},
+            type: any
+          };
           // Handle subscription result
           if (data.type === 'data') {
-            const { payload: { data : { onCreateEpisode: newEpisodeData } } } = data
+            const { payload: { data : { onCreateEpisode, onUpdateEpisode } } } = data
             updateCachedData(draft => {
-              // cache should be an array to show multiple notifications
-              return newEpisodeData
+              console.log(data);
+              
+              const episode = onCreateEpisode || onUpdateEpisode;
+              const eventType = {
+                onCreateId: "create",
+                onUpdateId: "update",
+                onDeleteId: "delete"
+              }[data.id]
+              const newEpisodeData = { ...episode, eventType }
+              if(!draft) return [newEpisodeData] as NotificationType[]
+              return [...draft, newEpisodeData] as NotificationType[];
             });
           }
         } catch (error) {

@@ -1,14 +1,14 @@
 import { API_KEY, ID, REGION } from "../constants";
 
-const onCreateSubscription = (ws: WebSocket) => {
+const onUpdateSubscription = (ws: WebSocket) => {
   const subscriptionMessage = {
     type: 'start',
-    id: 'onCreateId',
+    id: 'onUpdateId',
     payload: {
       data: JSON.stringify({
         query: `
-          subscription OnCreateEpisode{
-            onCreateEpisode{
+          subscription OnUpdateEpisode{
+            onUpdateEpisode{
               id
               series
               title
@@ -32,4 +32,4 @@ const onCreateSubscription = (ws: WebSocket) => {
 
 }
 
-export default onCreateSubscription;
+export default onUpdateSubscription;

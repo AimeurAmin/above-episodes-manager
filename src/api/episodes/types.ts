@@ -58,3 +58,5 @@ export type OmdbEpisodeType = {
   Type: string,
   Response: string
 }
+
+export type NotificationType = EpisodeType & { eventType: "create" | "delete" | "update" }
