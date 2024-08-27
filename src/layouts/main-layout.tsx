@@ -5,7 +5,9 @@ const MainLayout = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <div className="flex justify-center w-full">
+        <Outlet />
+      </div>
     </div>
   )
 }

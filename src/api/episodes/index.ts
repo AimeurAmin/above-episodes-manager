@@ -22,9 +22,11 @@ export const episodeOmdbApi = omdbApi.injectEndpoints({
 export const {
   useListEpisodesQuery, 
   useGetEpisodeByIdQuery,
+  useLazyGetEpisodeByIdQuery,
   useOnCreateEpisodeQuery
 } = episodesApi;
 
 export const {
-  useGetOmdbEpisodeByIdQuery
+  useGetOmdbEpisodeByIdQuery,
+  useLazyGetOmdbEpisodeByIdQuery
 } = episodeOmdbApi;

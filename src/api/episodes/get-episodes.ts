@@ -15,6 +15,9 @@ export const listEpisodes = (builder: ApiEndpointBuilder) => {
               title
               seasonNumber
               episodeNumber
+              releaseDate
+              description
+              imdbId
             }
           }
         `,

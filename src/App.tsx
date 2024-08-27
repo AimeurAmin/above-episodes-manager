@@ -3,10 +3,10 @@ import Button from "./components/button";
 import RootRouter from "./routes";
 
 const App = () => {
-  const [mode, setmode] = useState<"" | "dark">("");
-  const handleModeChange = useCallback(() => {
-    setmode(prev => prev === "dark" ? "" : "dark")
-   }, [mode])
+  const [mode, /*setmode*/] = useState<"" | "dark">("");
+  // const handleModeChange = useCallback(() => {
+  //   setmode(prev => prev === "dark" ? "" : "dark")
+  //  }, [mode])
   
   return (
     <div className={mode}>
