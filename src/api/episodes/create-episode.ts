@@ -24,8 +24,6 @@ export const createEpisode = (builder: ApiEndpointBuilder) => {
         variables: {episode},
       },
     }),
-    // providesTags: (result, _error, args) => {      
-    //   return 
-    // },
+    invalidatesTags: () => [{ type: "episodes", id: "LIST" }]
   });
   };

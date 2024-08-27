@@ -24,9 +24,7 @@ export const getEpisodeById = (builder: ApiEndpointBuilder) => {
         variables: { episodeId },
       },
     }),
-    transformResponse: (result: SingleEpisodeResponse) => result.data.getEpisodeById
-    // providesTags: (result, _error, args) => {      
-    //   return 
-    // },
+    transformResponse: (result: SingleEpisodeResponse) => result.data.getEpisodeById,
+    providesTags: (result) => [{ type: "episodes", id: result?.id }],
   });
   };

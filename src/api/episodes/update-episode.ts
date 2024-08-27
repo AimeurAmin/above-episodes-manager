@@ -26,8 +26,6 @@ export const updateEpisode = (builder: ApiEndpointBuilder) => {
         variables: {episode},
       },
     }),
-    // providesTags: (result, _error, args) => {      
-    //   return 
-    // },
+    invalidatesTags: (result) => [{ type: "episodes", id: result?.data.id }]
   });
   };

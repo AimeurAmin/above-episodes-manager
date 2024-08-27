@@ -24,8 +24,15 @@ export const listEpisodes = (builder: ApiEndpointBuilder) => {
         variables: { search: searchTerm },
       },
     }),
-    // providesTags: (result, _error, args) => {      
-    //   return 
-    // },
+    providesTags: (result) => {
+     
+      if(!result?.data.listEpisodes) return [{ type: "episodes", id: "LIST" }]
+
+      const { data: { listEpisodes }} = result;
+      return [
+        ...listEpisodes.map(({ id }) => ({ type: "episodes", id })),
+        { type: "episodes", id: "LIST" }
+      ]
+    },
   });
   };
