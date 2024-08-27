@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { EpisodeType } from '../api/episodes/types';
 import Button from "./button";
 import Typography from "./typography";
-import { useCreateEpisodeMutation } from "../api/episodes";
+import { useCreateEpisodeMutation, useUpdateEpisodeMutation } from "../api/episodes";
 import uuid from "short-uuid";
 
 const schema = z.object({
@@ -39,12 +39,13 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
     values: isOpen ? episode :  defaultValues
   });
   const [createEpisode] = useCreateEpisodeMutation();
-  
+  const [updateEpisode] = useUpdateEpisodeMutation();
   
 
   const onSubmit = (data: SchemaType) => {
-    console.log(data);
-    
+    if(episode) {
+      updateEpisode(data as EpisodeType)
+    }    
     createEpisode(data as EpisodeType);
   }
 
