@@ -1,4 +1,5 @@
 import { graphqlApi, omdbApi } from "../api";
+import { createEpisode } from "./create-episode";
 import { onCreateEpisode } from "./create-episode-subscription";
 import { getEpisodeById } from "./get-episode-by-id";
 import { listEpisodes } from "./get-episodes";
@@ -8,6 +9,7 @@ export const episodesApi = graphqlApi.injectEndpoints({
   endpoints: (build) => ({
     listEpisodes: listEpisodes(build),
     getEpisodeById: getEpisodeById(build),
+    createEpisode: createEpisode(build),
     onCreateEpisode: onCreateEpisode(build)
   }),
 });
@@ -23,7 +25,8 @@ export const {
   useListEpisodesQuery, 
   useGetEpisodeByIdQuery,
   useLazyGetEpisodeByIdQuery,
-  useOnCreateEpisodeQuery
+  useOnCreateEpisodeQuery,
+  useCreateEpisodeMutation
 } = episodesApi;
 
 export const {

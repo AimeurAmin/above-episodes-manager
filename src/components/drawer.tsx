@@ -5,8 +5,12 @@ import { z } from 'zod';
 import { EpisodeType } from '../api/episodes/types';
 import Button from "./button";
 import Typography from "./typography";
+import { useCreateEpisodeMutation } from "../api/episodes";
+import uuid from "short-uuid";
 
 const schema = z.object({
+  id: z.string(),
+  series: z.string().min(3),
   title: z.string().min(3),
   description: z.string().min(3),
   imdbId: z.string().min(9),
@@ -19,6 +23,8 @@ type SchemaType = z.infer<typeof schema>
 
 
 const defaultValues = {
+  id: uuid().generate(),
+  series: "",
   title: "",
   description: "",
   imdbId: "",
@@ -32,14 +38,14 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
     resolver: zodResolver(schema),
     values: isOpen ? episode :  defaultValues
   });
-
+  const [createEpisode] = useCreateEpisodeMutation();
   
-  console.log({episode});
   
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: SchemaType) => {
     console.log(data);
     
+    createEpisode(data as EpisodeType);
   }
 
   return (
@@ -61,6 +67,13 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
       >
         <div className="p-4 h-full ">
           <h2 className="text-lg font-bold mb-4">{episode ? "Update " : "Create a new"} episode</h2>
+
+          <label className="text-sm" htmlFor="series">series</label>
+          <input id='series' 
+            placeholder='series'
+            className='w-full border p-2 mb-1'
+            {...register('series')}
+          />
 
           <label className="text-sm" htmlFor="title">title</label>
           <input id='title' 

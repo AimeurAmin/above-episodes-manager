@@ -21,6 +21,10 @@ export type SingleEpisodeResponse = {
   }
 }
 
+export type CreateEpisodeResponse = {
+  data: EpisodeType
+}
+
 export type OmdbEpisodeType = {
   Title: string,
   Year: string,
