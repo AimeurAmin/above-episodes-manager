@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useListEpisodesQuery } from "../../api/episodes";
+import { useListEpisodesQuery, useOnCreateEpisodeQuery } from "../../api/episodes";
 import Button from "../../components/button";
 import Typography from "../../components/typography";
 import useDebounce from "../../hooks/use-debounce";
@@ -8,11 +8,13 @@ const EpisodesList = () => {
   const { debouncedSearch, updateDebounce } = useDebounce<string>("");
 
   const { data } = useListEpisodesQuery(debouncedSearch);
+  const { data: createdEpisodes } = useOnCreateEpisodeQuery();
 
+  console.log({notification: createdEpisodes});
   
   if(!data?.data?.listEpisodes) return <>No episodes</>
 
-  const { data: { listEpisodes } } = data
+  const { data: { listEpisodes } } = data;
 
   return (
     <div>
