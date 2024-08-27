@@ -11,7 +11,7 @@ const App = () => {
   return (
     <div className={mode}>
       <div className="bg-background-50 h-svh px-20 py-4">
-        <Button variant="primary" onClick={handleModeChange}>{mode === "dark" ? "light" : "dark"}</Button>
+        {/* <Button variant="primary" onClick={handleModeChange}>{mode === "dark" ? "light" : "dark"}</Button> */}
         <RootRouter />
       </div>
     </div>
