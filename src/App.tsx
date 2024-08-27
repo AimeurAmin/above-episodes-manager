@@ -1,7 +1,6 @@
-import { useCallback, useState } from "react";
-import Button from "./components/button";
-import RootRouter from "./routes";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import RootRouter from "./routes";
 
 const App = () => {
   const [mode, /*setmode*/] = useState<"" | "dark">("");
