@@ -23,7 +23,7 @@ const Card: FC<CardPropsType> = (props) => {
   const handleDeleteEpisode = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
     e.preventDefault();
     e.stopPropagation();
-    toast.promise(triggerDeleteEpisode(id).unwrap(), {
+    toast.promise(triggerDeleteEpisode(episode).unwrap(), {
       loading: 'Deleting the episode...',
       success: 'Episode deleted.',
       error: 'An error occured while deleting the episode!'

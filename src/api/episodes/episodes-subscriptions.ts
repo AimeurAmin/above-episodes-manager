@@ -1,6 +1,7 @@
 import { ApiEndpointBuilder } from '../api.types';
 import { ID, REGION, SOCKET_WSS } from './constants';
 import onCreateSubscription from './subscriptions/on-create';
+import onDeleteSubscription from './subscriptions/on-delete';
 import onUpdateSubscription from './subscriptions/on-update';
 import { EpisodeType, NotificationType } from './types';
 
@@ -29,6 +30,7 @@ export const subscribeToEpisodesEvents = (builder: ApiEndpointBuilder) => {
         // Subscribes to events
         onCreateSubscription(ws);
         onUpdateSubscription(ws);
+        onDeleteSubscription(ws);
       };
 
       ws.onmessage = (event) => {
@@ -40,22 +42,25 @@ export const subscribeToEpisodesEvents = (builder: ApiEndpointBuilder) => {
             }},
             type: any
           };
+          
           // Handle subscription result
           if (data.type === 'data') {
             const { payload: { data : { onCreateEpisode, onUpdateEpisode } } } = data
-            updateCachedData(draft => {
-              console.log(data);
-              
-              const episode = onCreateEpisode || onUpdateEpisode;
-              const eventType = {
-                onCreateId: "create",
-                onUpdateId: "update",
-                onDeleteId: "delete"
-              }[data.id]
-              const newEpisodeData = { ...episode, eventType }
-              if(!draft) return [newEpisodeData] as NotificationType[]
-              return [...draft, newEpisodeData] as NotificationType[];
-            });
+            if(data.id !== 'onDeleteId') { // delete subscription only returns an id so I had to workaround this in delete-episode.ts
+              updateCachedData(draft => {               
+                const episode = onCreateEpisode || onUpdateEpisode;
+                const eventType = {
+                  onCreateId: "create",
+                  onUpdateId: "update",
+                  onDeleteId: "delete"
+                }[data.id];
+
+                const newEpisodeData = { ...episode, eventType };
+
+                if(!draft) return [newEpisodeData] as NotificationType[]
+                return [...draft, newEpisodeData] as NotificationType[];
+              });
+            }
           }
         } catch (error) {
           console.error('Error processing message:', error);

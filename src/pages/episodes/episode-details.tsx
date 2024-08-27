@@ -5,7 +5,7 @@ import Typography from "../../components/typography";
 const EpisodeDetails = () => {
   const { id } = useParams();
 
-  const { data: episode } = useGetEpisodeByIdQuery(id!, {
+  const { data: episode, isLoading } = useGetEpisodeByIdQuery(id!, {
     skip: !id
   });
 
@@ -14,7 +14,13 @@ const EpisodeDetails = () => {
     skip: !episode?.imdbId
   }) 
 
-  
+  if(!isLoading && !episode) {
+    return (
+      <div className="h-svh flex flex-colr items-center">
+        <Typography className="text-red-600 font-semibold text-lg">This Episode was not found, it might have been delete!</Typography>
+      </div>
+    )
+  }
   return (
     <div className="flex flex-col items-center flex-1 ">
       <Typography className="text-center text-primary-900 text-2xl w-[90%] font-bold text-ellipsis overflow-hidden text-nowrap mb-10">

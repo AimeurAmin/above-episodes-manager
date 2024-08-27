@@ -23,7 +23,9 @@ const NotificationsList: FC<Props> = ({ isOpen, toggle }) => {
             {createdEpisodes && createdEpisodes.length ? 
               createdEpisodes.map(
                 (event: NotificationType, index: number) => (
-                  <NotificationItem {...event} index={index} toggle={toggle}/>
+                  <div key={event.id + event.eventType + index}>
+                    <NotificationItem {...event} index={index} toggle={toggle}/>
+                  </div>
                 )
               ): <Typography className='text-center'>No notifications yet.</Typography>
             }

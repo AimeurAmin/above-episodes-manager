@@ -9,7 +9,7 @@ const NotificationItem = (props: NotificationType & { toggle: () => void; index:
 
   const event = {
     create: {
-      color: "text-green-700",
+      color: "text-green-600",
       message: "New episode"
     },
     update: {
@@ -27,13 +27,13 @@ const NotificationItem = (props: NotificationType & { toggle: () => void; index:
     toggle();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    dispatch(graphqlApi.util.updateQueryData('onCreateEpisode', undefined,(draft: NotificationType[]) => {
+    dispatch(graphqlApi.util.updateQueryData('subscribeToEpisodesEvents', undefined,(draft: NotificationType[]) => {
       draft.splice(index, 1);
     }))
   }
   
   return (
-    <Link to={`/${id}`} onClick={handleNotificationClicked} key={id}>
+    <Link to={`${eventType === "delete" ? "/" : `/${id}`}`} onClick={handleNotificationClicked} key={id}>
       <div className='rounded-lg bg-primary-50 px-3 py-1 cursor-pointer mb-2'>
         <div className="flex justify-between items-start">
           <Typography className='text-lg w-64 font-medium overflow-hidden overflow-ellipsis text-nowrap'>{series}</Typography>

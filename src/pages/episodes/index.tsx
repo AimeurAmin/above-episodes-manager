@@ -7,12 +7,13 @@ import Card from "../../components/card";
 import RightDrawer from "../../components/drawer";
 import SearchInput from "../../components/search";
 import useDebounce from "../../hooks/use-debounce";
+import Typography from "../../components/typography";
 
 const EpisodesList = () => {
   const { debouncedSearch, updateDebounce } = useDebounce<string>("");
 
   
-  const { data } = useListEpisodesQuery(debouncedSearch);
+  const { data, isLoading } = useListEpisodesQuery(debouncedSearch);
 
   const [triggerGetImdbData, { data: imdbData }] = useLazyGetOmdbEpisodeByIdQuery();
 
@@ -53,7 +54,21 @@ const EpisodesList = () => {
     setIsDrawerOpen(true)
   }
 
-  if(!data?.data?.listEpisodes) return <>No episodes</>
+  if(isLoading) {
+    return (
+      <div className="h-svh flex flex-colr items-center">
+        <Typography className="text-primary-600 font-semibold text-lg">Loading list of episodes...</Typography>
+      </div>
+    )
+  }
+
+  if(!data?.data?.listEpisodes) {
+    return (
+      <div className="h-svh flex flex-colr items-center">
+        <Typography className="text-red-600 font-semibold text-lg">No Episodes.</Typography>
+      </div>
+    )
+  }
   
   const { data: { listEpisodes } } = data; 
   
@@ -73,7 +88,7 @@ const EpisodesList = () => {
 
       <div className="overflow-y-auto h-[calc(100vh-400px)]">
         {listEpisodes.map((episode) => (
-          <div className="mb-3">
+          <div className="mb-3" key={episode.id}>
             <Link to={`/${episode.id}`}>
               <Card {...episode} updateEpisode={handleOpenUpdateDrawer}  />
             </Link>
