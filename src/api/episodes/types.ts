@@ -11,18 +11,22 @@ export type EpisodeType = {
 
 export type EpisodesResponse = {
   data: {
-    listEpisodes: EpisodeType[]
+    listEpisodes: EpisodeType[];
   }
 }
 
 export type SingleEpisodeResponse = {
   data: {
-    getEpisodeById: EpisodeType
+    getEpisodeById: EpisodeType;
   }
 }
 
 export type CreateEpisodeResponse = {
-  data: EpisodeType
+  data: EpisodeType;
+}
+
+export type DeleteEpisodeResponse = {
+  deleteEpisode: string;
 }
 
 export type OmdbEpisodeType = {

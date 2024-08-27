@@ -3,18 +3,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC } from 'react'
 import { EpisodeType } from '../api/episodes/types'
 import moment from 'moment'
+import { useDeleteEpisodeMutation } from '../api/episodes'
+import toast from 'react-hot-toast'
 
 type CardPropsType = EpisodeType & { updateEpisode: (episode: EpisodeType) => void }
 
 const Card: FC<CardPropsType> = (props) => {
   const { updateEpisode, ...episode } = props;
-  const { series, title, description, releaseDate, episodeNumber, seasonNumber } = episode;
+  const { id, series, title, description, releaseDate, episodeNumber, seasonNumber } = episode;
 
   const updateEpisodeHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
     e.preventDefault();
     e.stopPropagation();
     updateEpisode(episode);
   }
+
+  const [triggerDeleteEpisode, { isLoading: isDeleting }] = useDeleteEpisodeMutation();
+
+  const handleDeleteEpisode = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toast.promise(triggerDeleteEpisode(id).unwrap(), {
+      loading: 'Deleting the episode...',
+      success: 'Episode deleted.',
+      error: 'An error occured while deleting the episode!'
+    })
+  }
+
   return (
     <div className="bg-purple-50 p-4 rounded-xl shadow-lg">
       <div>
@@ -36,7 +51,7 @@ const Card: FC<CardPropsType> = (props) => {
         <button className="text-gray-600 hover:text-purple-600" onClick={updateEpisodeHandler}>
           <FontAwesomeIcon icon={faEdit} />
         </button>
-        <button className="text-gray-600 hover:text-purple-600">
+        <button className="text-gray-600 hover:text-purple-600" onClick={handleDeleteEpisode} disabled={isDeleting}>
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLazyGetOmdbEpisodeByIdQuery, useListEpisodesQuery, useOnCreateEpisodeQuery } from "../../api/episodes";
+import { EpisodeType } from "../../api/episodes/types";
 import Button from "../../components/button";
 import Card from "../../components/card";
+import RightDrawer from "../../components/drawer";
 import SearchInput from "../../components/search";
 import Typography from "../../components/typography";
 import useDebounce from "../../hooks/use-debounce";
-import RightDrawer from "../../components/drawer";
-import { EpisodeType } from "../../api/episodes/types";
 
 const EpisodesList = () => {
   const { debouncedSearch, updateDebounce } = useDebounce<string>("");
@@ -54,6 +54,7 @@ const EpisodesList = () => {
     setEpisodeToUpdate(episode);
     setIsDrawerOpen(true)
   }
+
   if(!data?.data?.listEpisodes) return <>No episodes</>
   
   const { data: { listEpisodes } } = data; 
@@ -76,7 +77,7 @@ const EpisodesList = () => {
         {listEpisodes.map((episode) => (
           <div className="mb-3">
             <Link to={`/${episode.id}`}>
-              <Card {...episode} updateEpisode={handleOpenUpdateDrawer}/>
+              <Card {...episode} updateEpisode={handleOpenUpdateDrawer}  />
             </Link>
           </div>
         ))}
