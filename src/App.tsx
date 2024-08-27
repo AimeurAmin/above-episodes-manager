@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import Button from "./components/button";
 import RootRouter from "./routes";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const [mode, /*setmode*/] = useState<"" | "dark">("");
@@ -13,6 +14,7 @@ const App = () => {
       <div className="bg-background-50 h-svh px-20 py-4">
         {/* <Button variant="primary" onClick={handleModeChange}>{mode === "dark" ? "light" : "dark"}</Button> */}
         <RootRouter />
+        <Toaster position="top-center" reverseOrder={false} />
       </div>
     </div>
   )

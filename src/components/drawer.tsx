@@ -7,6 +7,7 @@ import Button from "./button";
 import Typography from "./typography";
 import { useCreateEpisodeMutation, useUpdateEpisodeMutation } from "../api/episodes";
 import uuid from "short-uuid";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   id: z.string(),
@@ -38,15 +39,24 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
     resolver: zodResolver(schema),
     values: isOpen ? episode :  defaultValues
   });
-  const [createEpisode] = useCreateEpisodeMutation();
-  const [updateEpisode] = useUpdateEpisodeMutation();
+  const [createEpisode, { isLoading: isCreating }] = useCreateEpisodeMutation();
+  const [updateEpisode, { isLoading: isUpdating }] = useUpdateEpisodeMutation();
   
 
   const onSubmit = (data: SchemaType) => {
     if(episode) {
-      updateEpisode(data as EpisodeType)
-    }    
-    createEpisode(data as EpisodeType);
+      toast.promise(updateEpisode(data as EpisodeType).unwrap(), {
+        loading: "Episode is updating...",
+        success: "Episode updated.",
+        error: "An error occured while updating the episode."
+      })
+    } else {
+      toast.promise(createEpisode(data as EpisodeType).unwrap(), {
+        loading: "Creating the episode...",
+        success: "Episode created.",
+        error: "An error occured while creating the episode."
+      })
+    }
   }
 
   return (
@@ -139,7 +149,7 @@ const RightDrawer: FC<{ episode?: EpisodeType; isOpen: boolean; toggleDrawer: ()
           
           <div className="ml-auto w-fit mt-10">
 
-            <Button variant="secondary" >Save episode</Button>
+            <Button variant="secondary" disabled={isCreating || isUpdating}>Save episode</Button>
           </div>
         </div>
 

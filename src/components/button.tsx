@@ -9,7 +9,7 @@ const Button: FC<ButtonProps> = (props) => {
   return (
     <button
       {...otherProps}
-      className={ `${colors} text-secondary-900 rounded-md px-4 py-2 ${className}`}
+      className={ `${colors} text-secondary-900 rounded-md px-4 py-2 disabled:bg-slate-500 disabled:text-slate-100 disabled:cursor-default ${className}`}
     >{children}</button>
   )
 }
