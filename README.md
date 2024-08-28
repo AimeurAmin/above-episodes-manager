@@ -22,4 +22,4 @@
 
 ### Mockup design
 
-`https://www.figma.com/design/gWmcMoTr15PX0uRSYI624w/Conetic%2FAbove-Tech-challenge?node-id=0-1&t=JLw6L4TueI7F1wKG-1`
+https://www.figma.com/design/gWmcMoTr15PX0uRSYI624w/Conetic%2FAbove-Tech-challenge?node-id=0-1&t=JLw6L4TueI7F1wKG-1
